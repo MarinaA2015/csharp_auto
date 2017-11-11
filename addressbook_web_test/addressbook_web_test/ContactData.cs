@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    class ContactData
+    public class ContactData
     {
         private string firstName;
         private string lastName;
@@ -21,7 +21,24 @@ namespace WebAddressbookTests
         private string email = "";
         private string email2 = "";
         private string email3 = "";
-       
+
+        /*
+          driver.FindElement(By.Name("homepage")).Clear();
+          driver.FindElement(By.Name("homepage")).SendKeys("homepage");
+          new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText("1");
+          new SelectElement(driver.FindElement(By.Name("bmonth"))).SelectByText("May");
+          driver.FindElement(By.Name("byear")).Clear();
+          driver.FindElement(By.Name("byear")).SendKeys("2000");
+          new SelectElement(driver.FindElement(By.Name("aday"))).SelectByText("7");
+          new SelectElement(driver.FindElement(By.Name("amonth"))).SelectByText("September");
+          driver.FindElement(By.Name("ayear")).Clear();
+          driver.FindElement(By.Name("ayear")).SendKeys("2010");
+          driver.FindElement(By.Name("address2")).Clear();
+          driver.FindElement(By.Name("address2")).SendKeys("address secondary");
+          driver.FindElement(By.Name("phone2")).Clear();
+          driver.FindElement(By.Name("phone2")).SendKeys("home");
+          driver.FindElement(By.Name("notes")).Clear();
+          driver.FindElement(By.Name("notes")).SendKeys("notes");*/
 
 
         public ContactData(string firstName, string lastName)
