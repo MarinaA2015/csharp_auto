@@ -24,6 +24,13 @@ namespace WebAddressbookTests
             driver.FindElement(By.LinkText("groups")).Click();
             return this;
         }
+        
+        public NavigationHelper GoToContactPage()
+        {
+            // driver.FindElement(By.XPath("//*[@id='nav']/ul/li[1]/a")).Click();
+            driver.FindElement(By.LinkText("home")).Click();
+            return this;
+        }
 
         public NavigationHelper OpenHomePage()
         {
