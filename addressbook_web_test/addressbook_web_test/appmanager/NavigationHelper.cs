@@ -13,20 +13,22 @@ namespace WebAddressbookTests
         
         private string baseURL;
 
-        public NavigationHelper(IWebDriver driver, string baseURL)
-            : base(driver)
+        public NavigationHelper(ApplicationManager manager, string baseURL)
+            : base(manager)
         {
             this.baseURL = baseURL;
         }
 
-        public void GoToGroupPage()
+        public NavigationHelper GoToGroupPage()
         {
             driver.FindElement(By.LinkText("groups")).Click();
+            return this;
         }
 
-        public void OpenHomePage()
+        public NavigationHelper OpenHomePage()
         {
             driver.Navigate().GoToUrl(baseURL + "addressbook/group.php");
+            return this;
         }
         
     }

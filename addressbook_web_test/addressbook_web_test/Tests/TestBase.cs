@@ -15,13 +15,10 @@ namespace WebAddressbookTests
         [SetUp]
         public void SetupTest()
         {
-            /*FirefoxOptions options = new FirefoxOptions();
-            options.UseLegacyImplementation = true;
-            options.BrowserExecutableLocation = @"C:\Program Files\Mozilla Firefox\firefox.exe";*/
-            /* driver = new FirefoxDriver(options);
-             baseURL = "http://localhost/";
-             verificationErrors = new StringBuilder();*/
+            
             app = new ApplicationManager();
+            app.Navigator.OpenHomePage();
+            app.Auth.Login(new AccountData("admin", "secret"));
 
 
         }

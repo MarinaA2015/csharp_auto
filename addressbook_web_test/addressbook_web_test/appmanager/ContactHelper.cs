@@ -13,26 +13,37 @@ namespace WebAddressbookTests
     {
         
 
-        public ContactHelper(IWebDriver driver) 
-            : base(driver)
+        public ContactHelper(ApplicationManager manager) 
+            : base(manager)
         {
            
         }
-        public void SubmitContactCreation()
+
+        public ContactHelper Create(ContactData contact)
+        {
+            InitContactCreation();
+            FillFieldsOfContact(contact);
+            SubmitContactCreation();
+            return this;
+        }
+        public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
+            return this;
         }
 
-        public void InitContactCreation()
+        public ContactHelper InitContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
+            return this;
         }
-        public void FillFieldsOfContact(ContactData contact)
+        public ContactHelper FillFieldsOfContact(ContactData contact)
         {
             driver.FindElement(By.Name("firstname")).Clear();
             driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
             driver.FindElement(By.Name("lastname")).Clear();
             driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
+            return this;
 
         }
     }

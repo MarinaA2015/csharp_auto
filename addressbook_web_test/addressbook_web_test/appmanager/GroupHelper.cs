@@ -11,43 +11,65 @@ namespace WebAddressbookTests
 {
     public class GroupHelper : HelperBase
     {
+       
 
-        public GroupHelper(IWebDriver driver)
-            :base(driver)
+        public GroupHelper(ApplicationManager manager)
+            :base(manager)
         {
         }
+        public GroupHelper Create(GroupData group)
+        {
+            manager.Navigator.GoToGroupPage();
+            InitNewgroupCreation();
+            FillFieldsOfGroup(group);
+            SubmitGroupCreation();
+            manager.Navigator.GoToGroupPage();
+            return this;
+        }
+        public GroupHelper Remove(int i)
+        {
+            manager.Navigator.GoToGroupPage();
+            SelectGroup(i);
+            DeleteGroup();
+            return this;
+        }
 
-        public void SelectGroup(int index)
+        public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            return this;
         }
 
-        public void DeleteGroup()
+        public GroupHelper DeleteGroup()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
+            return this;
         }
 
 
-        public void SubmitGroupCreation()
+        public GroupHelper SubmitGroupCreation()
         {
 
             driver.FindElement(By.Name("submit")).Click();
+            return this;
         }
 
 
-        public void InitNewgroupCreation()
+        public GroupHelper InitNewgroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
+            return this;
         }
-        public void FillFieldsOfGroup(GroupData group)
-        {
 
+        public GroupHelper FillFieldsOfGroup(GroupData group)
+        {
             driver.FindElement(By.Name("group_name")).Clear();
             driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
             driver.FindElement(By.Name("group_header")).Clear();
             driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
             driver.FindElement(By.Name("group_footer")).Clear();
             driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+            return this;
         }
     }
 
