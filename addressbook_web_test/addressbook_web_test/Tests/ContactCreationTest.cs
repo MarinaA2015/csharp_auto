@@ -12,18 +12,16 @@ namespace WebAddressbookTests
     [TestFixture]
     public class ContactCreationTests : TestBase
     {
-      
-
-       
+            
         [Test]
         public void ContactCreationTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            InitContactCreation();
-            FillFieldsOfContact(new ContactData("Ivan", "Ivanov"));
-            SubmitContactCreation();
-            Logout();
+            app.Navigator.OpenHomePage();
+            app.Auth.Login(new AccountData("admin", "secret"));
+            app.Contacts.InitContactCreation();
+            app.Contacts.FillFieldsOfContact(new ContactData("Ivan", "Ivanov"));
+            app.Contacts.SubmitContactCreation();
+            app.Auth.Logout();
         }     
         
     }
