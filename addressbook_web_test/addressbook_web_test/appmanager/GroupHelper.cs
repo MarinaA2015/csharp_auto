@@ -34,10 +34,31 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Modify(int i, GroupData newData)
+        public GroupHelper IntelligentRemove(int i)
         {
             manager.Navigator.GoToGroupPage();
-            InitModifyGroup(i);
+            SpecialSelectGroup(i);
+            DeleteGroup();
+            return this;
+        }
+
+        public GroupHelper Modify(int i, GroupData newData)
+        {
+             manager.Navigator.GoToGroupPage();          
+             SelectGroup(i);
+             InitModifyGroup();
+             FillFieldsOfGroup(newData);
+             SubmitModifyGroup();
+             manager.Navigator.GoToGroupPage();            
+           
+            return this;
+        }
+
+        public GroupHelper IntelligentModify(int i, GroupData newData)
+        {
+            manager.Navigator.GoToGroupPage();
+            SpecialSelectGroup(i);
+            InitModifyGroup();
             FillFieldsOfGroup(newData);
             SubmitModifyGroup();
             manager.Navigator.GoToGroupPage();
@@ -45,6 +66,20 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public GroupHelper SpecialSelectGroup(int index)
+        {
+            By element = By.XPath("(//input[@name='selected[]'])[" + index + "]");
+            if (!IsElementPresent(element))
+            {
+                Create(new GroupData("Additional Group"));
+                SpecialSelectGroup(index);
+            }
+            else
+            {
+                driver.FindElement(element).Click();
+            }
+            return this;
+        }
 
         public GroupHelper SelectGroup(int index)
         {
@@ -89,7 +124,7 @@ namespace WebAddressbookTests
             return this;
         }
 
-        private GroupHelper InitModifyGroup(int i)
+        private GroupHelper InitModifyGroup()
         {
             driver.FindElement(By.Name("edit")).Click();
             return this;

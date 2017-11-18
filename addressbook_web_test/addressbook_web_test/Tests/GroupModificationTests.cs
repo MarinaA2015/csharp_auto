@@ -13,9 +13,10 @@ namespace WebAddressbookTests
     {
         
         [Test]
-        public void GroupCreationTest()
+        public void GroupModificationTest()
         {
-            app.Groups.Modify(1, new GroupData("NameModif", "HeaderModif", "FooterModif"));
+            
+            app.Groups.IntelligentModify(10, new GroupData("NameModif", "HeaderModif", "FooterModif"));
             app.Navigator.OpenHomePage();
             
         }
