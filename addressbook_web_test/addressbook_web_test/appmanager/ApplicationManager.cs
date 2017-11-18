@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
 
 namespace WebAddressbookTests
 {
@@ -19,8 +20,9 @@ namespace WebAddressbookTests
         protected NavigationHelper navigationHelper;
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
-   
-        public ApplicationManager()
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
+
+        private ApplicationManager()
         {
             FirefoxOptions options = new FirefoxOptions();
             options.UseLegacyImplementation = true;
@@ -35,6 +37,18 @@ namespace WebAddressbookTests
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
         }
+         ~ApplicationManager()
+        {
+            try
+            {
+                driver.Quit();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         public LoginHelper Auth
         {
             get
@@ -73,16 +87,17 @@ namespace WebAddressbookTests
             }
         }
 
-        public void Stop()
+     
+        public static ApplicationManager GetInstance()
         {
-            try
+            if (!app.IsValueCreated)
             {
-                driver.Quit();
+                ApplicationManager newInstance = new ApplicationManager();
+                app.Value = newInstance;
+                newInstance.Navigator.OpenHomePage();        
             }
-            catch (Exception)
-            {
-               
-            }
+
+            return app.Value;
         }
-   }
+    }
 }

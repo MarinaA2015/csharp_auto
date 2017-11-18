@@ -21,21 +21,33 @@ namespace WebAddressbookTests
 
         public NavigationHelper GoToGroupPage()
         {
-            driver.FindElement(By.LinkText("groups")).Click();
+            if (!(driver.Url == baseURL + "addressbook/group.php" &&
+                IsElementPresent(By.Name("New"))))
+            {
+                driver.FindElement(By.LinkText("groups")).Click();
+            }
             return this;
         }
         
-        public NavigationHelper GoToContactPage()
+        public NavigationHelper OpenHomePage()
         {
-            // driver.FindElement(By.XPath("//*[@id='nav']/ul/li[1]/a")).Click();
-            driver.FindElement(By.LinkText("home")).Click();
+
+            if (driver.Url != baseURL + "addressbook/" )
+            {
+                // driver.FindElement(By.XPath("//*[@id='nav']/ul/li[1]/a")).Click();
+                driver.Navigate().GoToUrl(baseURL + "addressbook/");
+            }
             return this;
         }
 
-        public NavigationHelper OpenHomePage()
+        public NavigationHelper GoToContactPage()
         {
-            driver.Navigate().GoToUrl(baseURL + "addressbook/group.php");
-            return this;
+
+            if (driver.Url != baseURL + "addressbook/" && IsElementPresent(By.LinkText("home")))
+            {
+                driver.FindElement(By.LinkText("home")).Click();
+            }
+                return this;
         }
         
     }
