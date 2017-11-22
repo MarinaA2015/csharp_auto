@@ -14,7 +14,11 @@ namespace WebAddressbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            app.Groups.IntelligentRemove(10);
+            if (app.Groups.IsEmptyGroupList())
+            {
+                app.Groups.Create(new GroupData("Additional Group"));
+            }
+            app.Groups.Remove(0);
             app.Navigator.GoToGroupPage();
         }
         

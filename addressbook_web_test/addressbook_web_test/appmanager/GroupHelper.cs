@@ -34,13 +34,6 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper IntelligentRemove(int i)
-        {
-            manager.Navigator.GoToGroupPage();
-            SpecialSelectGroup(i);
-            DeleteGroup();
-            return this;
-        }
 
         public GroupHelper Modify(int i, GroupData newData)
         {
@@ -54,36 +47,16 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper IntelligentModify(int i, GroupData newData)
+        public bool IsEmptyGroupList()
         {
-            manager.Navigator.GoToGroupPage();
-            SpecialSelectGroup(i);
-            InitModifyGroup();
-            FillFieldsOfGroup(newData);
-            SubmitModifyGroup();
-            manager.Navigator.GoToGroupPage();
-
-            return this;
+            return !IsElementPresent(By.XPath("//input[@name='selected[]']"));
         }
 
-        public GroupHelper SpecialSelectGroup(int index)
-        {
-            By element = By.XPath("(//input[@name='selected[]'])[" + index + "]");
-            if (!IsElementPresent(element))
-            {
-                Create(new GroupData("Additional Group"));
-                SpecialSelectGroup(index);
-            }
-            else
-            {
-                driver.FindElement(element).Click();
-            }
-            return this;
-        }
+       
 
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("//input[@name='selected[]']")).Click();
             return this;
         }
 

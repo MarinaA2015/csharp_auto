@@ -36,14 +36,6 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper IntelligentModify(int i, ContactData newData)
-        {
-            manager.Navigator.GoToContactPage();
-            SpecialInitModifyContact(i, newData);
-            FillFieldsOfContact(newData);
-            SubmitContactModification();
-            return this;
-        }
 
         public ContactHelper Remove(int i)
         {
@@ -53,36 +45,15 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper IntelligentRemove(int i)
+        public bool IsEmptyContactList()
         {
-            manager.Navigator.GoToContactPage();
-            SpecialSelectContact(i);
-            RemoveSelectedContact();
-            return this;
+            return !IsElementPresent(By.XPath("//img[@alt='Edit']"));
+
         }
-
-
-        public ContactHelper SpecialInitModifyContact(int i, ContactData newData)
-        {
-            By element = By.XPath("(//img[@alt='Edit'])[" + i + "]");
-            if (!IsElementPresent(element))
-            {
-                Create(new ContactData("Additional", "Contact"));
-                manager.Navigator.GoToContactPage();
-                SpecialInitModifyContact(i,newData);
-
-            }
-            else
-            {
-                driver.FindElement(element).Click();
-            }
-       
-            
-            return this;
-        }
+      
         public ContactHelper InitModifyContact(int i,ContactData newData)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + i + "]")).Click();
+            driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
             return this;
         }
 
@@ -102,26 +73,10 @@ namespace WebAddressbookTests
         private ContactHelper SelectContact( int i)
         {
            
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + i + "]")).Click();
+            driver.FindElement(By.XPath("//input[@name='selected[]']")).Click();
             return this;
         }
 
-        private ContactHelper SpecialSelectContact(int i)
-        {
-            By element = By.XPath("(//input[@name='selected[]'])[" + i + "]");
-            if (!IsElementPresent(element))
-            {
-                Create(new ContactData("Additional", "Contact"));
-                manager.Navigator.GoToContactPage();
-                SpecialSelectContact(i);
-            }
-            else
-            {
-                driver.FindElement(element).Click();
-            }
-            
-            return this;
-        }
 
         public ContactHelper SubmitContactCreation()
         {

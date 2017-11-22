@@ -14,8 +14,11 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTest()
         {
-
-            app.Contacts.IntelligentRemove(5);
+            if (app.Contacts.IsEmptyContactList())
+            {
+                app.Contacts.Create(new ContactData("Additional", "Contact"));
+            }
+            app.Contacts.Remove(0);
             
         }
     }

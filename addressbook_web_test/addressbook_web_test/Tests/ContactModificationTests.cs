@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace WebAddressbookTests
 {
@@ -14,8 +15,13 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModificationTest()
         {
+            if (app.Contacts.IsEmptyContactList())
+            {
+                app.Contacts.Create(new ContactData("Additional", "Contact"));
+            }
+            
+            app.Contacts.Modify(0, new ContactData("PetrModif", "PetrovModif"));
 
-            app.Contacts.IntelligentModify(10, new ContactData("PetrModif", "PetrovModif"));
 
         }
     }

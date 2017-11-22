@@ -15,8 +15,11 @@ namespace WebAddressbookTests
         [Test]
         public void GroupModificationTest()
         {
-            
-            app.Groups.IntelligentModify(10, new GroupData("NameModif", "HeaderModif", "FooterModif"));
+            if (app.Groups.IsEmptyGroupList())
+            {
+                app.Groups.Create(new GroupData("Additional Group"));
+            }
+            app.Groups.Modify(0, new GroupData("NameModif", "HeaderModif", "FooterModif"));
             app.Navigator.OpenHomePage();
             
         }
