@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    public class ContactData
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string firstName;
         private string lastName;
@@ -21,25 +21,6 @@ namespace WebAddressbookTests
         private string email = "";
         private string email2 = "";
         private string email3 = "";
-
-        /*
-          driver.FindElement(By.Name("homepage")).Clear();
-          driver.FindElement(By.Name("homepage")).SendKeys("homepage");
-          new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText("1");
-          new SelectElement(driver.FindElement(By.Name("bmonth"))).SelectByText("May");
-          driver.FindElement(By.Name("byear")).Clear();
-          driver.FindElement(By.Name("byear")).SendKeys("2000");
-          new SelectElement(driver.FindElement(By.Name("aday"))).SelectByText("7");
-          new SelectElement(driver.FindElement(By.Name("amonth"))).SelectByText("September");
-          driver.FindElement(By.Name("ayear")).Clear();
-          driver.FindElement(By.Name("ayear")).SendKeys("2010");
-          driver.FindElement(By.Name("address2")).Clear();
-          driver.FindElement(By.Name("address2")).SendKeys("address secondary");
-          driver.FindElement(By.Name("phone2")).Clear();
-          driver.FindElement(By.Name("phone2")).SendKeys("home");
-          driver.FindElement(By.Name("notes")).Clear();
-          driver.FindElement(By.Name("notes")).SendKeys("notes");*/
-
 
         public ContactData(string firstName, string lastName)
         {
@@ -191,6 +172,39 @@ namespace WebAddressbookTests
             {
                 email3 = value;
             }
+        }
+        public bool Equals(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return false;
+            }
+
+            if (Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return (FirstName == other.FirstName && LastName == other.LastName);
+        }
+
+        public override int GetHashCode()
+        {
+            return FirstName.GetHashCode() + LastName.GetHashCode();
+        }
+
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            string nf = FirstName + LastName;
+            return nf.CompareTo(other.FirstName + other.LastName);
+        }
+
+        public override string ToString()
+        {
+            return "FirstName = " + FirstName + ", LastName = " + LastName;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
-
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -18,8 +18,13 @@ namespace WebAddressbookTests
             {
                 app.Groups.Create(new GroupData("Additional Group"));
             }
-            app.Groups.Remove(0);
+            List<GroupData> oldGroups = app.Groups.GetGroupsList();
+            app.Groups.Remove(1);
+            List<GroupData> newGroups = app.Groups.GetGroupsList();
+            oldGroups.RemoveAt(0);
             app.Navigator.GoToGroupPage();
+
+            Assert.AreEqual(oldGroups, newGroups);
         }
         
 

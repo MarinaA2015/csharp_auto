@@ -19,9 +19,17 @@ namespace WebAddressbookTests
             {
                 app.Groups.Create(new GroupData("Additional Group"));
             }
-            app.Groups.Modify(0, new GroupData("NameModif", "HeaderModif", "FooterModif"));
+
+            List<GroupData> oldGroups = app.Groups.GetGroupsList();
+
+            GroupData group = new GroupData("NameModif", "HeaderModif", "FooterModif");
+            app.Groups.Modify(0, group);
+
+            List<GroupData> newGroup = app.Groups.GetGroupsList();
+
+            oldGroups[0].Name = group.Name;
             app.Navigator.OpenHomePage();
-            
+            Assert.AreEqual(oldGroups, newGroup);
         }
     }
 }
