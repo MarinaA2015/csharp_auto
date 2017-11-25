@@ -24,9 +24,12 @@ namespace WebAddressbookTests
             app.Navigator.GoToContactPage();
 
             List<ContactData> newContacts = app.Contacts.GetContactsList();
+            ContactData oldData = oldContacts[0];
             oldContacts.RemoveAt(0);
 
             Assert.AreEqual(oldContacts, newContacts);
+            foreach (ContactData contact in newContacts)
+                Assert.AreNotEqual(oldData.Id, contact.Id);
         }
     }
 }

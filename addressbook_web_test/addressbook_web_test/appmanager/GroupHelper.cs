@@ -27,22 +27,26 @@ namespace WebAddressbookTests
             return this;
         }
 
+        private List<GroupData> groupCache = null;
+
         internal List<GroupData> GetGroupsList()
         {
-            List<GroupData> groups = new List<GroupData>();
-            manager.Navigator.GoToGroupPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            foreach (IWebElement element in elements)
+            if (groupCache == null)
             {
-                groups.Add(new GroupData(element.Text));
-            }
+                groupCache = new List<GroupData>();
+                manager.Navigator.GoToGroupPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+                    GroupData group = new GroupData(element.Text) {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    };
 
-           /* foreach (GroupData group in groups)
-            {
-                Console.WriteLine(group.Name);
-            }*/
+                    groupCache.Add(group);
+                }
+            }    
 
-            return groups;
+            return new List<GroupData>(groupCache);
         }
 
         public GroupHelper Remove(int i)
@@ -82,6 +86,7 @@ namespace WebAddressbookTests
         public GroupHelper DeleteGroup()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -90,6 +95,7 @@ namespace WebAddressbookTests
         {
 
             driver.FindElement(By.Name("submit")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -113,6 +119,7 @@ namespace WebAddressbookTests
         private GroupHelper SubmitModifyGroup()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupCache = null;
             return this;
         }
 
