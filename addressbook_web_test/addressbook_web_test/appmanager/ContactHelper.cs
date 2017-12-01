@@ -27,6 +27,64 @@ namespace WebAddressbookTests
             return this;
         }
 
+        internal ContactData GetContactFromForm(int index)
+        {
+            index++;
+            manager.Navigator.OpenHomePage();
+            manager.Contacts.InitModifyContact(index);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            //Console.WriteLine("firstName - " + firstName);
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+           // Console.WriteLine("lastName - " + lastName);
+
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3
+            };
+
+
+        }
+
+        internal ContactData GetContactFromTable(int index)
+        {
+            manager.Navigator.OpenHomePage();
+
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+           // Console.WriteLine("lastName - " + lastName);
+            string firstName = cells[2].Text;
+           // Console.WriteLine("firstName - " + firstName);
+            string address = cells[3].Text;
+            // Console.WriteLine("address - " + address);
+            string allEmails = cells[4].Text;
+            string allPhones = cells[5].Text;
+            // Console.WriteLine("allPhones - " + allPhones);
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                AllPhones = allPhones,
+                AllEmails = allEmails
+               
+            };
+        }
+
         private List<ContactData> contactCache = null;
 
         public List<ContactData> GetContactsList()
@@ -52,7 +110,7 @@ namespace WebAddressbookTests
         public ContactHelper Modify(int i,ContactData newData)
         {
             manager.Navigator.GoToContactPage();
-            InitModifyContact(i,newData);
+            InitModifyContact(i);
             FillFieldsOfContact(newData);
             SubmitContactModification();
             return this;
@@ -73,7 +131,7 @@ namespace WebAddressbookTests
 
         }
       
-        public ContactHelper InitModifyContact(int i,ContactData newData)
+        public ContactHelper InitModifyContact(int i)
         {
             driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + i +"]")).Click();
             return this;
