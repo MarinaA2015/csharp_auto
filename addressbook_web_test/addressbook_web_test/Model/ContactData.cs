@@ -19,19 +19,20 @@ namespace WebAddressbookTests
         }
 
         public string FirstName { get; set; }
-       
+        public string MiddleName { get; set; }
+
         public string LastName { get; set; }
 
         public string Id { get; set; }
-        
-        public string MiddleName { get; set; }
-       
+
+        public string Nickname { get; set; }
+
         public string Photo { get; set; }
-       
-        public string Company { get; set;  }
-       
+
+        public string Company { get; set; }
+
         public string Title { get; set; }
-        
+
         public string Address { get; set; }
 
         public string HomePhone { get; set; }
@@ -40,11 +41,13 @@ namespace WebAddressbookTests
 
         public string WorkPhone { get; set; }
 
+
+
         public string AllPhones
         {
             get
             {
-                if (allPhones != null )
+                if (allPhones != null)
                 {
                     return allPhones;
                 }
@@ -59,22 +62,34 @@ namespace WebAddressbookTests
             }
         }
 
-        private string CleanUp(string phone)
-        {
-            if (phone == null || phone == "")
-                return "";
-            else
-                return Regex.Replace(phone, "[ --()]", "") + "\r\n";
-
-        }
-
         public string Fax { get; set; }
-        
+
         public string Email { get; set; }
 
         public string Email2 { get; set; }
-       
+
         public string Email3 { get; set; }
+
+        public string HomePage { get; set; }
+
+        public string BDay { get; set; }
+
+        public string BMonth { get; set; }
+
+        public string BYear { get; set; }
+
+        public string ADay { get; set; }
+
+        public string AMonth { get; set; }
+
+        public string AYear { get; set; }
+
+        public string SecAddress { get; set; }
+
+        public string SecHome { get; set; }
+
+        public string SecNotes { get; set; }
+
 
         public string AllEmails
         {
@@ -93,6 +108,15 @@ namespace WebAddressbookTests
             {
                 allEmails = value;
             }
+        }
+
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone == "")
+                return "";
+            else
+                return Regex.Replace(phone, "[ --()]", "") + "\r\n";
+
         }
 
         public bool Equals(ContactData other)
@@ -122,6 +146,43 @@ namespace WebAddressbookTests
             }
             string nf = FirstName + LastName;
             return nf.CompareTo(other.FirstName + other.LastName);
+        }
+
+        public string Summary()
+        {
+            string res =  ( 
+                            StringConverter(FirstName + MiddleName + LastName, "")
+                            + StringConverter(Title, "")
+                            + StringConverter(Company, "")
+                            + StringConverter(Address, "") + "\r\n"
+                            + StringConverter(HomePhone, "H:")
+                            + StringConverter(MobilePhone, "M:")
+                            + StringConverter(WorkPhone, "W:")
+                            + StringConverter(Fax, "F:") + "\r\n"
+                            + StringConverter(Email, "")
+                            + StringConverter(Email2, "")
+                            + StringConverter(Email3, "") + "\r\n"
+                            + DateConverter(BDay, BMonth, BYear, "Birthday")
+                            + DateConverter(ADay, AMonth, AYear, "Anniversary") + "\r\n"
+                            + StringConverter(SecAddress, "") + "\r\n"
+                            + StringConverter(SecHome, "P:")
+                            + StringConverter(SecNotes, "")
+                                                            ).Trim().Replace(" ", "");
+            //Console.WriteLine(res);
+            return res;
+        }
+
+        private string DateConverter(string bDay, string bMonth, string bYear, string v)
+        {
+            string bDayF = (bDay != null && bDay != "") ? bDay + "." : "";
+            string bMonthF = (bMonth != null && bMonth != "-") ? bMonth : "";
+            string bYearF = (bYear != null && bYear != "") ? bYear + "(" + (DateTime.Now.Year - int.Parse(bYear)) + ")" + "\r\n" : "";
+            return v + bDayF + bMonthF + bYearF;
+        }
+
+        private string StringConverter(string value, string prefix)
+        {
+            return (value != null && value != "") ? prefix + value.Trim() + "\r\n" : "";
         }
 
         public override string ToString()
