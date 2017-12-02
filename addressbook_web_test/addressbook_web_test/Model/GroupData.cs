@@ -33,7 +33,7 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return "name" + Name;
+            return "name = " + Name + ", header = " + Header + ", footer = " + Footer;
         }   
 
         public bool Equals(GroupData other)
