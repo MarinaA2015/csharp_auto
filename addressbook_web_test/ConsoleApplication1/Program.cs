@@ -18,7 +18,7 @@ namespace ConsoleApplication1
             int count = Convert.ToInt32(args[0]);
             StreamWriter writer = new StreamWriter(args[1]);
             String format = args[2];
-           // String type = args[0];
+            String type = args[0];
             List<GroupData> groups = new List<GroupData>();
             for (int i = 0; i < count; i++)
             {
