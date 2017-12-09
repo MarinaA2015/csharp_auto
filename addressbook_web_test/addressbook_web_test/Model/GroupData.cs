@@ -30,6 +30,7 @@ namespace WebAddressbookTests
             this.Header = header;
             this.Footer = footer;
         }
+        public GroupData() { }
 
         public override string ToString()
         {
