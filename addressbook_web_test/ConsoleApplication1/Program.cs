@@ -15,43 +15,56 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            int count = Convert.ToInt32(args[0]);
-            StreamWriter writer = new StreamWriter(args[1]);
-            String format = args[2];
+
+            int count = Convert.ToInt32(args[1]);
+            StreamWriter writer = new StreamWriter(args[2]);
+            String format = args[3];
             String type = args[0];
-            List<GroupData> groups = new List<GroupData>();
+
+            if (format != "xml" && format != "json")
+                System.Console.Out.WriteLine("Unrecognized format " + format);
+
+            if (type == "groups")
+                GeneratorForGroups(writer, format, count);
+            else if (type == "contacts")
+                GeneratorForContacts(writer, format, count);
+            else System.Console.Out.WriteLine("Unrecognized type " + type);
+
+            writer.Close();
+        }
+
+        private static void GeneratorForContacts(StreamWriter writer, string format, int count)
+        {
+            List<ContactData> contacts = new List<ContactData>();
+
             for (int i = 0; i < count; i++)
             {
-                groups.Add(new GroupData(TestBase.GenerateRandomString(10)){
+                contacts.Add(new ContactData(TestBase.GenerateRandomString(10),
+                                         TestBase.GenerateRandomString(10)));
+            }
+            if (format == "xml") writeContactsToXML(contacts, writer);
+                else writeContactsToJSON(contacts, writer);
+
+        }
+
+        private static void GeneratorForGroups(StreamWriter writer, string format, int count)
+        {
+            List<GroupData> groups = new List<GroupData>();
+
+            for (int i = 0; i < count; i++)
+            {
+                groups.Add(new GroupData(TestBase.GenerateRandomString(10))
+                {
                     Header = TestBase.GenerateRandomString(10),
                     Footer = TestBase.GenerateRandomString(20)
                 });
             }
 
-            switch (format)
-            {
-                case "csv":
-                    writeGroupsToCSV(groups, writer); break;
-                case "xml":
-                    writeGroupsToXML(groups, writer); break;
-                case "json":
-                    writeGroupsToJSON(groups, writer); break;
-                default:
-                    System.Console.Out.WriteLine("Unrecognized format " + format); break;
-            }
-
+            if (format == "xml") writeGroupsToXML(groups, writer);
+                else writeGroupsToJSON(groups, writer);
             
-            writer.Close();
         }
-        public static void writeGroupsToCSV(List<GroupData> groups, StreamWriter writer)
-        {
-            foreach (GroupData group in groups)
-            {
-                writer.WriteLine(String.Format("${0},${1},${2}",
-                                 group.Name, group.Header, group.Footer));
-                                
-            }
-        }
+
 
         public static void writeGroupsToXML(List<GroupData> groups, StreamWriter writer)
         {
@@ -61,6 +74,16 @@ namespace ConsoleApplication1
         public static void writeGroupsToJSON(List<GroupData> groups, StreamWriter writer)
         {
             writer.Write(JsonConvert.SerializeObject(groups));
+        }
+
+        public static void writeContactsToXML(List<ContactData> contacts, StreamWriter writer)
+        {
+            new XmlSerializer(typeof(List<ContactData>)).Serialize(writer, contacts);
+        }
+
+        public static void writeContactsToJSON(List<ContactData> contacts, StreamWriter writer)
+        {
+            writer.Write(JsonConvert.SerializeObject(contacts));
         }
     }
 }
