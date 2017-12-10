@@ -39,8 +39,8 @@ namespace ConsoleApplication1
 
             for (int i = 0; i < count; i++)
             {
-                contacts.Add(new ContactData(TestBase.GenerateRandomString(10),
-                                         TestBase.GenerateRandomString(10)));
+                contacts.Add(new ContactData(TestBase.GenerateRandomString(20),
+                                         TestBase.GenerateRandomString(20)));
             }
             if (format == "xml") writeContactsToXML(contacts, writer);
                 else writeContactsToJSON(contacts, writer);
