@@ -8,6 +8,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -20,7 +21,7 @@ namespace WebAddressbookTests
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
             List<GroupData> groups = new List<GroupData>();
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 groups.Add(new GroupData(GenerateRandomString(30))
                 {
@@ -36,7 +37,7 @@ namespace WebAddressbookTests
         {
             List<GroupData> groups = new List<GroupData>();
             String[] lines = File.ReadAllLines(@"groups.csv");
-            foreach(String l in lines)
+            foreach (String l in lines)
             {
                 string[] parts = l.Split(',');
                 groups.Add(new GroupData(parts[0])
@@ -53,15 +54,15 @@ namespace WebAddressbookTests
 
             return (List<GroupData>)
                 new XmlSerializer(typeof(List<GroupData>))
-                .Deserialize(new StreamReader(@"example.xml"));                   
+                .Deserialize(new StreamReader(@"example.xml"));
         }
 
         public static IEnumerable<GroupData> GroupDataFromJSONFile()
         {
-           return JsonConvert
-                .DeserializeObject<List<GroupData>>(File.ReadAllText(@"example.json"));
+            return JsonConvert
+                 .DeserializeObject<List<GroupData>>(File.ReadAllText(@"example.json"));
 
-          
+
         }
 
         [Test, TestCaseSource("GroupDataFromJSONFile")]
@@ -96,6 +97,28 @@ namespace WebAddressbookTests
             Assert.AreEqual(oldGroups, newGroups);
         }
 
-        
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUI = app.Groups.GetGroupsList();
+
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine("from UI: " + (end.Subtract(start)));
+            AddressBookDB db = new AddressBookDB();
+            start = DateTime.Now;
+            List<GroupData> fromDB = (from g in db.Groups select g).ToList();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine("from DB: " + (end.Subtract(start)));
+            Console.WriteLine("-------from UI--------");
+            foreach (GroupData group in fromUI)
+                Console.WriteLine(group.Name);
+            Console.WriteLine("-------from DB--------");
+            foreach (GroupData group in fromDB)
+                Console.WriteLine(group.Name);
+            db.Close();
+            
+
+        }
     }
 }
