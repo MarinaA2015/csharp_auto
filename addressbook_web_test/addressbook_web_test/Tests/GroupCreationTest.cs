@@ -64,7 +64,7 @@ namespace WebAddressbookTests
           
         }
 
-        [Test, TestCaseSource("GroupDataFromJSONFile")]
+        [Test, TestCaseSource("GroupDataFromXMLFile")]
         public void GroupCreationAutoParameters(GroupData group)
         {
 

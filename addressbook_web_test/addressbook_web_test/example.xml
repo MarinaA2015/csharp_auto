@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfGroupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <GroupData>
-    <Name>&gt;E1:9A</Name>
-    <Header>%)9\3U*</Header>
-    <Footer>!2@H&gt;*YR</Footer>
+    <Name>AutoNameXML1</Name>
+    <Header>AutoHeaderXML1</Header>
+    <Footer>AutoFooterXML1</Footer>
   </GroupData>
   <GroupData>
-    <Name>JM+T</Name>
-    <Header>N`</Header>
-    <Footer>1Z&gt;-"O)</Footer>
+    <Name>AutoNamXML2</Name>
+    <Header>AutoNameXML2</Header>
+    <Footer>AutoNameXML2</Footer>
   </GroupData>
   <GroupData>
-    <Name>S6YM</Name>
-    <Header>Z.1</Header>
-    <Footer>ST],+;ESZQL5WW&lt;:</Footer>
+    <Name>AutoNameXML3</Name>
+    <Header>AutoHeaderXMLHeader3</Header>
+    <Footer>AutoFooterXML3</Footer>
   </GroupData>
 </ArrayOfGroupData>
