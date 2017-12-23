@@ -9,7 +9,7 @@ namespace WebAddressbookTests
 {
     [TestFixture]
 
-    class ContactRemovalTests : AuthTestBase
+    class ContactRemovalTests : ContactTestBase
     {
         [Test]
         public void ContactRemovalTest()
@@ -18,18 +18,20 @@ namespace WebAddressbookTests
             {
                 app.Contacts.Create(new ContactData("Additional", "Contact"));
             }
-            List<ContactData> oldContacts = app.Contacts.GetContactsList();
+            List<ContactData> oldContacts = ContactData.GetAll();
 
-            app.Contacts.Remove(1);
+            ContactData toBeRemoved = oldContacts[0];
+           
+            app.Contacts.Remove(toBeRemoved);
             app.Navigator.GoToContactPage();
 
-            List<ContactData> newContacts = app.Contacts.GetContactsList();
-            ContactData oldData = oldContacts[0];
+            List<ContactData> newContacts = ContactData.GetAll();
+           
             oldContacts.RemoveAt(0);
 
             Assert.AreEqual(oldContacts, newContacts);
             foreach (ContactData contact in newContacts)
-                Assert.AreNotEqual(oldData.Id, contact.Id);
+                Assert.AreNotEqual(toBeRemoved.Id, contact.Id);
         }
     }
 }
