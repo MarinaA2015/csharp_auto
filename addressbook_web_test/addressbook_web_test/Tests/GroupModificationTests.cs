@@ -9,7 +9,7 @@ namespace WebAddressbookTests
 {
     [TestFixture]
 
-    class GroupModificationTests : AuthTestBase
+    class GroupModificationTests : GroupTestBase
     {
         
         [Test]
@@ -20,18 +20,18 @@ namespace WebAddressbookTests
                 app.Groups.Create(new GroupData("Additional Group"));
             }
 
-            List<GroupData> oldGroups = app.Groups.GetGroupsList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             GroupData oldData = oldGroups[0];
 
             GroupData group = new GroupData("NameModif", "HeaderModif", "FooterModif");
-            app.Groups.Modify(0, group);
+            app.Groups.Modify(oldData, group);
 
-            List<GroupData> newGroup = app.Groups.GetGroupsList();
+            List<GroupData> newGroups = GroupData.GetAll();
 
-            oldGroups[0].Name = group.Name;
+            oldData.Name = group.Name;
             app.Navigator.OpenHomePage();
-            Assert.AreEqual(oldGroups, newGroup);
-            foreach(GroupData element in newGroup)
+            Assert.AreEqual(oldGroups, newGroups);
+            foreach(GroupData element in newGroups)
             {
                 if (element.Id == oldData.Id)
                     Assert.AreEqual(element.Name, group.Name);

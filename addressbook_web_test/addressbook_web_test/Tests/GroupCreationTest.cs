@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
@@ -69,10 +69,10 @@ namespace WebAddressbookTests
         public void GroupCreationAutoParameters(GroupData group)
         {
 
-            List<GroupData> oldGroups = app.Groups.GetGroupsList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             app.Groups.Create(group);
             app.Navigator.OpenHomePage();
-            List<GroupData> newGroups = app.Groups.GetGroupsList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
@@ -84,12 +84,12 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest()
         {
-            List<GroupData> oldGroups = app.Groups.GetGroupsList();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             GroupData group = new GroupData("Name", "Header", "Footer");
             app.Groups.Create(group);
 
-            List<GroupData> newGroups = app.Groups.GetGroupsList();
+            List<GroupData> newGroups = GroupData.GetAll();
             app.Navigator.OpenHomePage();
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -105,9 +105,8 @@ namespace WebAddressbookTests
 
             DateTime end = DateTime.Now;
             System.Console.Out.WriteLine("from UI: " + (end.Subtract(start)));
-            AddressBookDB db = new AddressBookDB();
             start = DateTime.Now;
-            List<GroupData> fromDB = (from g in db.Groups select g).ToList();
+            List<GroupData> fromDB = GroupData.GetAll();                   
             end = DateTime.Now;
             System.Console.Out.WriteLine("from DB: " + (end.Subtract(start)));
             Console.WriteLine("-------from UI--------");
@@ -116,7 +115,7 @@ namespace WebAddressbookTests
             Console.WriteLine("-------from DB--------");
             foreach (GroupData group in fromDB)
                 Console.WriteLine(group.Name);
-            db.Close();
+            
             
 
         }
