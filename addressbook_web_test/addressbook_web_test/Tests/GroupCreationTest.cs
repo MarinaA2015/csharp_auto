@@ -100,22 +100,13 @@ namespace WebAddressbookTests
         [Test]
         public void TestDBConnectivity()
         {
-            DateTime start = DateTime.Now;
-            List<GroupData> fromUI = app.Groups.GetGroupsList();
-
-            DateTime end = DateTime.Now;
-            System.Console.Out.WriteLine("from UI: " + (end.Subtract(start)));
-            start = DateTime.Now;
-            List<GroupData> fromDB = GroupData.GetAll();                   
-            end = DateTime.Now;
-            System.Console.Out.WriteLine("from DB: " + (end.Subtract(start)));
-            Console.WriteLine("-------from UI--------");
-            foreach (GroupData group in fromUI)
-                Console.WriteLine(group.Name);
-            Console.WriteLine("-------from DB--------");
-            foreach (GroupData group in fromDB)
-                Console.WriteLine(group.Name);
-            
+            List<GroupData> groups = GroupData.GetAll();
+            GroupData group2 = new GroupData();
+            foreach (GroupData gr in groups)
+                if (gr.Id == "108")
+                    group2 = gr;
+            foreach (ContactData contact in group2.GetContacts())
+                Console.Out.WriteLine(contact);
             
 
         }

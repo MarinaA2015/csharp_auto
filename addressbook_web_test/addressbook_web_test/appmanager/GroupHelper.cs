@@ -65,6 +65,8 @@ namespace WebAddressbookTests
             return new List<GroupData>(groupCache);
         }
 
+       
+
         public GroupHelper Remove(GroupData toBeRemoved)
         {
             manager.Navigator.GoToGroupPage();

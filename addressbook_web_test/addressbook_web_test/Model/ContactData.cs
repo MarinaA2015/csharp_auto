@@ -31,7 +31,7 @@ namespace WebAddressbookTests
         [Column(Name = "LastName")]
         public string LastName { get; set; }
 
-        [Column(Name = "id")]
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
 
         [Column(Name = "nickname")]
