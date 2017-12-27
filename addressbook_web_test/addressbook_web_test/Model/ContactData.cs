@@ -136,6 +136,7 @@ namespace WebAddressbookTests
 
         public bool Equals(ContactData other)
         {
+           
             if (Object.ReferenceEquals(other, null))
             {
                 return false;
@@ -212,5 +213,22 @@ namespace WebAddressbookTests
                 return (from c in db.Contacts where c.Deprecated == "0000-00-00 00:00:00" select c ).ToList();
             }
         }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            ContactData other = (ContactData)obj;
+
+            return (FirstName == other.FirstName && LastName == other.LastName);
+        }
+
+       
+      
+       
     }
 }
