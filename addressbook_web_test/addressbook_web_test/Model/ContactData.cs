@@ -151,7 +151,10 @@ namespace WebAddressbookTests
 
         public override int GetHashCode()
         {
-            return FirstName.GetHashCode() + LastName.GetHashCode();
+            if (Id == null)
+                return FirstName.GetHashCode() + LastName.GetHashCode();
+            else
+                return Id.GetHashCode();
         }
 
         public int CompareTo(ContactData other)
@@ -224,7 +227,7 @@ namespace WebAddressbookTests
             }
             ContactData other = (ContactData)obj;
 
-            return (FirstName == other.FirstName && LastName == other.LastName);
+            return ((FirstName == other.FirstName && LastName == other.LastName && Id == null) || Id == other.Id);
         }
 
        
